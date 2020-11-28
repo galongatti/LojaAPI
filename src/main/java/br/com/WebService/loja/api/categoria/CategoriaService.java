@@ -31,14 +31,18 @@ public class CategoriaService {
 
     public CategoriaDTO save(Categoria categoria) {
         Assert.notNull(categoria.getId(), "Não deve ser informado o id");
-        Assert.notNull(categoria, "Não foi possível inserir o registro");
+        Assert.notNull(categoria, "Não foi possível inserir a categoria");
         return CategoriaDTO.create(rep.save(categoria));
 
     }
 
     public CategoriaDTO update(Categoria categoria) {
         
+        Assert.isNull(categoria.getId(),"O id da categoria deve ser informado");
+        Assert.isNull(categoria.getDescricao(), "A descrição deve ser informada");
+        
         Categoria db = new Categoria();
+        db.setId(categoria.getId());
         db.setDescricao(categoria.getDescricao());
         return CategoriaDTO.create(rep.save(db));
 

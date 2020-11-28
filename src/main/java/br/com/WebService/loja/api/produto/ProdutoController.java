@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.com.WebService.loja.api.categoria;
+package br.com.WebService.loja.api.produto;
 
 import java.net.URI;
 import java.util.List;
@@ -21,41 +16,42 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/v1/categorias")
-public class CategoriaController {
+@RequestMapping("/api/v1/produtos")
+public class ProdutoController {
 
     @Autowired
-    private CategoriaService service;
+    private ProdutoService service;
 
     @GetMapping
     public ResponseEntity get() {
-        List<CategoriaDTO> listaCategoria = service.getCategorias();
-        return ResponseEntity.ok(listaCategoria);
+        List<ProdutoDTO> listaProdutos = service.getProdutos();
+        return ResponseEntity.ok(listaProdutos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCategoriaById(@PathVariable("id") long id) {
-        
-        CategoriaDTO c = service.getCategoriaById(id);
-        return ResponseEntity.ok(c);
+    public ResponseEntity getProdutoById(@PathVariable("id") long id) {
+
+        ProdutoDTO produto = service.getProdutoById(id);
+        return ResponseEntity.ok(produto);
 
     }
 
     @PostMapping("")
     @Secured({"ROLE_ADMIN"})
-    public ResponseEntity post(@RequestBody Categoria categoria) {
-        CategoriaDTO c = service.save(categoria);
-        URI location = getUri(c.getId());
+    public ResponseEntity post(@RequestBody Produto produto) {
+
+        ProdutoDTO p = service.save(produto);
+        URI location = getUri(p.getId());
         return ResponseEntity.created(location).build();
-        
+
     }
     
     @PutMapping("")
-    public ResponseEntity put(@RequestBody Categoria categoria) {
+    public ResponseEntity put(@RequestBody Produto produto) {
 
-        CategoriaDTO c = service.update(categoria);
-        if (c != null) {
-            return ResponseEntity.ok(c);
+        ProdutoDTO p = service.update(produto);
+        if (p != null) {
+            return ResponseEntity.ok(p);
         } else {
             return ResponseEntity.badRequest()
                     .build();
@@ -65,6 +61,7 @@ public class CategoriaController {
     
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") long id){
+        
         service.delete(id);
         return ResponseEntity.ok().build();
     
